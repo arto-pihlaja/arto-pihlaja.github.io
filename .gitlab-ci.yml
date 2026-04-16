@@ -1,0 +1,46 @@
+stages:
+  - scrape
+  - pages
+
+# Scrape lunch menus daily at 09:00 Finnish time (06:00 UTC)
+# Requires a pipeline schedule configured in GitLab UI:
+#   Settings > CI/CD > Pipeline schedules > New schedule
+#   Cron: 0 6 * * 1-5  (Mon-Fri at 06:00 UTC)
+#   Timezone: UTC
+update-menus:
+  stage: scrape
+  image: node:20-slim
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "schedule"
+    - if: $CI_PIPELINE_SOURCE == "web"  # Manual trigger from UI
+  before_script:
+    - apt-get update -qq && apt-get install -qq -y git > /dev/null
+    - cd Site_Tour/Helsinki_food/scraper
+    - npm ci --silent
+  script:
+    - node scrape.js
+    - cd ..
+    - |
+      if git diff --quiet menus.js; then
+        echo "No menu changes detected"
+      else
+        git config user.name "GitLab CI"
+        git config user.email "ci@gitlab.siilicloud.com"
+        git remote set-url origin "https://gitlab-ci-token:${CI_JOB_TOKEN}@gitlab.siilicloud.com/${CI_PROJECT_PATH}.git"
+        git add menus.js
+        git commit -m "Update lunch menus $(date -u +%Y-%m-%d)"
+        git push origin HEAD:${CI_COMMIT_BRANCH}
+      fi
+
+# GitLab Pages deployment
+pages:
+  stage: pages
+  script:
+    - mkdir -p public
+    - cp -r Site_Tour/Helsinki_food/* public/
+    - cp -r Site_Tour/Helsinki_food/scraper public/scraper 2>/dev/null || true
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH

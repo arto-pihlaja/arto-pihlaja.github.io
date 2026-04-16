@@ -1,0 +1,11 @@
+{
+  "name": "ai-roadmap-tool",
+  "version": "1.0.0",
+  "description": "AI Maturity & Roadmap Tool - Portfolio management for AI use cases",
+  "type": "module",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "exceljs": "^4.4.0",
+    "firebase-admin": "^13.7.0"
+  }
+}
