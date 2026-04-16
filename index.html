@@ -937,7 +937,7 @@
     <div class="card">
       <div style="text-align:center;margin-bottom:32px">
         <div style="font-size:42px;margin-bottom:8px">&#x1F680;</div>
-        <h2 style="font-size:24px;font-weight:700;color:var(--siili-dark);margin:0 0 8px">Hyvinvointialueen AI-käyttötapaukset</h2>
+        <h2 style="font-size:24px;font-weight:700;color:var(--siili-dark);margin:0 0 8px">AI-käyttötapaukset</h2>
         <p style="font-size:14px;color:#64748b;max-width:640px;margin:0 auto;line-height:1.6">Tämä sovellus on työkalu asiakasorganisaation AI-työpajassa tunnistettujen <strong>käyttötapausten hallintaan, priorisointiin ja visualisointiin</strong>. Täällä voit tutkia käyttötapauksia eri näkökulmista, arvioida niiden vaikutuksia ja seurata miten arviot kehittyvät ajan myötä.</p>
       </div>
 
@@ -6383,7 +6383,7 @@ async function exportToExcel() {
   ws1.columns = colWidths.map(w => ({ width: w }));
 
   // Title row
-  const titleRow = ws1.addRow(['Hyvinvointialueen AI-käyttötapausten yhteenveto']);
+  const titleRow = ws1.addRow(['AI-käyttötapausten yhteenveto']);
   titleRow.getCell(1).font = titleFont;
   titleRow.height = 30;
   ws1.addRow([]);
@@ -6562,7 +6562,7 @@ function exportToPptx() {
   let slide = pptx.addSlide();
   slide.background = { color: BROWN };
   slide.addShape(pptx.ShapeType.rect, { x: 0.5, y: 2.6, w: 3, h: 0.06, fill: { color: RED } });
-  slide.addText('Hyvinvointialue', { x: 0.5, y: 1.0, w: 8, h: 0.7, fontSize: 36, fontFace: 'Segoe UI', color: WHITE, bold: true });
+  slide.addText('Alue', { x: 0.5, y: 1.0, w: 8, h: 0.7, fontSize: 36, fontFace: 'Segoe UI', color: WHITE, bold: true });
   slide.addText('AI-käyttötapaukset', { x: 0.5, y: 1.7, w: 8, h: 0.7, fontSize: 28, fontFace: 'Segoe UI', color: 'F2C7C5' });
   slide.addText('Tekoälytyöpajan käyttötapausten yhteenveto ja analyysi', { x: 0.5, y: 2.9, w: 8, h: 0.5, fontSize: 14, fontFace: 'Segoe UI', color: 'D4D4D8' });
   slide.addText(dateStr, { x: 0.5, y: 3.5, w: 4, h: 0.4, fontSize: 12, fontFace: 'Segoe UI', color: '9CA3AF' });
